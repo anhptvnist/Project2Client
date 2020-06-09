@@ -38,86 +38,86 @@ class Content extends Component {
     //     return result;
     // }
 
-    handleResizeColumn = () => {
-        window.$(function () {
-            var pressed = false;
+    // handleResizeColumn = () => {
+    //     window.$(function () {
+    //         var pressed = false;
 
-            var tableHeadings = [];
-            var originalHeadingWidths = [];
-            var resizingIndex = -1;
-            var startX = undefined;
+    //         var tableHeadings = [];
+    //         var originalHeadingWidths = [];
+    //         var resizingIndex = -1;
+    //         var startX = undefined;
 
-            window.$("table thead tr th:not(:last-child)").on("touchstart mousedown", function (e) {
-                pressed = true;
+    //         window.$("table thead tr th:not(:last-child)").on("touchstart mousedown", function (e) {
+    //             pressed = true;
                 
-                // Touch or mouse
-                startX = (e.changedTouches === undefined)? e.pageX: e.changedTouches[0].pageX;
+    //             // Touch or mouse
+    //             startX = (e.changedTouches === undefined)? e.pageX: e.changedTouches[0].pageX;
 
-                let currentTH = window.$(this);
-                window.$(currentTH).addClass("resizing");
-                tableHeadings = window.$(currentTH)[0].parentNode.childNodes;
+    //             let currentTH = window.$(this);
+    //             window.$(currentTH).addClass("resizing");
+    //             tableHeadings = window.$(currentTH)[0].parentNode.childNodes;
 
-                // Find the index of resizing column
-                for (let i = 0; i<tableHeadings.length; ++i) {
-                    if (tableHeadings[i] === window.$(currentTH)[0]){
-                        resizingIndex = i;
-                        break;
-                    }
-                }
+    //             // Find the index of resizing column
+    //             for (let i = 0; i<tableHeadings.length; ++i) {
+    //                 if (tableHeadings[i] === window.$(currentTH)[0]){
+    //                     resizingIndex = i;
+    //                     break;
+    //                 }
+    //             }
 
-                // Save the current widths of all columns
-                for (let i = 0; i<tableHeadings.length; ++i) {
-                    originalHeadingWidths[i] = window.$(tableHeadings[i]).width()
-                }
-            });
+    //             // Save the current widths of all columns
+    //             for (let i = 0; i<tableHeadings.length; ++i) {
+    //                 originalHeadingWidths[i] = window.$(tableHeadings[i]).width()
+    //             }
+    //         });
 
-            window.$("table thead tr th:not(:last-child)").on("touchmove mousemove", function (e) {
-                if (pressed) {
-                    let MINIMUM_WIDTH = 40;
+    //         window.$("table thead tr th:not(:last-child)").on("touchmove mousemove", function (e) {
+    //             if (pressed) {
+    //                 let MINIMUM_WIDTH = 40;
 
-                    /* Kích thước cột hiện tại được mượn/cho từ kích thước cột kế tiếp
-                     * Điều kiện là cột hiện tại và cột kế tiếp luôn có kích thước tối thiểu nào đó
-                     */
-                    let additionalWidth = ((e.changedTouches === undefined)? e.pageX: e.changedTouches[0].pageX )- startX;
+    //                 /* Kích thước cột hiện tại được mượn/cho từ kích thước cột kế tiếp
+    //                  * Điều kiện là cột hiện tại và cột kế tiếp luôn có kích thước tối thiểu nào đó
+    //                  */
+    //                 let additionalWidth = ((e.changedTouches === undefined)? e.pageX: e.changedTouches[0].pageX )- startX;
 
-                    if (additionalWidth > originalHeadingWidths[resizingIndex + 1] - MINIMUM_WIDTH) {
-                        additionalWidth = originalHeadingWidths[resizingIndex + 1] - MINIMUM_WIDTH;
-                    }
-                    if (originalHeadingWidths[resizingIndex] + additionalWidth <MINIMUM_WIDTH){
-                        additionalWidth = MINIMUM_WIDTH - originalHeadingWidths[resizingIndex];
-                    }
+    //                 if (additionalWidth > originalHeadingWidths[resizingIndex + 1] - MINIMUM_WIDTH) {
+    //                     additionalWidth = originalHeadingWidths[resizingIndex + 1] - MINIMUM_WIDTH;
+    //                 }
+    //                 if (originalHeadingWidths[resizingIndex] + additionalWidth <MINIMUM_WIDTH){
+    //                     additionalWidth = MINIMUM_WIDTH - originalHeadingWidths[resizingIndex];
+    //                 }
 
-                    // Cập nhật kích thước cột hiện tại và cột kế tiếp
-                    window.$(tableHeadings[resizingIndex]).width(originalHeadingWidths[resizingIndex] + additionalWidth);
-                    window.$(tableHeadings[resizingIndex + 1]).width(originalHeadingWidths[resizingIndex + 1] - additionalWidth);
+    //                 // Cập nhật kích thước cột hiện tại và cột kế tiếp
+    //                 window.$(tableHeadings[resizingIndex]).width(originalHeadingWidths[resizingIndex] + additionalWidth);
+    //                 window.$(tableHeadings[resizingIndex + 1]).width(originalHeadingWidths[resizingIndex + 1] - additionalWidth);
 
-                    // Giữ nguyên kích thước các cột còn lại (Khi bảng có nhiều cột, resize 1 cột sẽ làm kích thước các cột khác sẽ bị ảnh hưởng)
-                    for (let i = 0; i<tableHeadings.length; ++i){
-                        if (i !== resizingIndex && i !== resizingIndex + 1)
-                            window.$(tableHeadings[i]).width(originalHeadingWidths[i]);
-                    }
-                }
-            });
+    //                 // Giữ nguyên kích thước các cột còn lại (Khi bảng có nhiều cột, resize 1 cột sẽ làm kích thước các cột khác sẽ bị ảnh hưởng)
+    //                 for (let i = 0; i<tableHeadings.length; ++i){
+    //                     if (i !== resizingIndex && i !== resizingIndex + 1)
+    //                         window.$(tableHeadings[i]).width(originalHeadingWidths[i]);
+    //                 }
+    //             }
+    //         });
 
-            window.$("table thead tr th:not(:last-child)").on("mouseup touchend", function () {
-                if (pressed) {
-                    window.$(tableHeadings[resizingIndex]).removeClass("resizing");
-                    pressed = false;
-                }
-            });
+    //         window.$("table thead tr th:not(:last-child)").on("mouseup touchend", function () {
+    //             if (pressed) {
+    //                 window.$(tableHeadings[resizingIndex]).removeClass("resizing");
+    //                 pressed = false;
+    //             }
+    //         });
 
-            window.addEventListener("resize", function(){
-                // Xóa thuộc tính width (nếu đã) thiết lập, để khi resize window, kích thước các cột tự cập nhật lại theo default, tránh bị lỗi
-                for (let i = 0; i<tableHeadings.length; ++i){
-                    window.$(tableHeadings[i]).width("");
-                }
-            });
+    //         window.addEventListener("resize", function(){
+    //             // Xóa thuộc tính width (nếu đã) thiết lập, để khi resize window, kích thước các cột tự cập nhật lại theo default, tránh bị lỗi
+    //             for (let i = 0; i<tableHeadings.length; ++i){
+    //                 window.$(tableHeadings[i]).width("");
+    //             }
+    //         });
 
-        });
-    }
+    //     });
+    // }
 
     componentDidUpdate() {
-        this.handleResizeColumn();
+        // this.handleResizeColumn();
     }
 
     render() {

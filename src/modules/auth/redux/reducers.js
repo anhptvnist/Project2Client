@@ -30,7 +30,7 @@ export function auth(state = initState, action) {
                 error: null
             };
 
-        case AuthConstants.LOGIN_FAILE:
+        case AuthConstants.LOGIN_FAILURE:
             return {
                 ...state,
                 isLoading: false,
@@ -43,7 +43,76 @@ export function auth(state = initState, action) {
                 },
                 // error: action.payload.message
             };
+        // ============================REGISTER==========================
+        case AuthConstants.REGISTER_REQUEST:
+            return {
+                ...state,
+                isLoading: true,
+                error: null
+            };
+
+        case AuthConstants.REGISTER_SUCCESS:
+            return {
+                ...state,
+                user: action.payload,
+                isLoading: false,
+                error: null
+            };
+
+        case AuthConstants.REGISTER_FAILURE:
+            return {
+                ...state,
+                error: action.payload,
+                isLoading: false
+                // error: action.payload.message
+            };
+        // ============================GET-USER==========================
+        case AuthConstants.GET_USER_REQUEST:
+            return {
+                ...state,
+                isLoading: true,
+                error: null
+            };
+
+        case AuthConstants.GET_USER_SUCCESS:
+            return {
+                ...state,
+                listuser: action.payload,
+                isLoading: false,
+                error: null
+            };
+
+        case AuthConstants.GET_USER_FAILURE:
+            return {
+                ...state,
+                error: action.payload,
+                isLoading: false
+                // error: action.payload.message
+            };
+        //============================SEARCH-USER==========================
+        case AuthConstants.SEARCH_USER_REQUEST:
+            return {
+                ...state,
+                isLoading: true,
+                error: null
+            };
+
+        case AuthConstants.SEARCH_USER_SUCCESS:
+            return {
+                ...state,
+                listuser: action.payload,
+                isLoading: false,
+                error: null
+            };
+
+        case AuthConstants.SEARCH_USER_FAILURE:
+            return {
+                ...state,
+                error: action.payload,
+                isLoading: false
+                // error: action.payload.message
+            };
         default:
-            return {...state};
+            return { ...state };
     }
 }

@@ -16,6 +16,7 @@ export function sendRequest(options, showSuccessAlert=false, showFailAlert=true,
         console.log("message: ", messages)
 
         showSuccessAlert && toast.success(
+            
             console.log("Success"),
             {containerId: 'toast-notification'});
 

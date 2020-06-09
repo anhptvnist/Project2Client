@@ -1,15 +1,35 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
+import { AuthActions } from '../redux/actions';
 class CreateUser extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            user:{}
+        }
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit =this.handleSubmit.bind(this);
+    }
+    handleChange(event){
+        const{name, value}= event.target;
+        this.setState({
+            [name]: value
+        });
+        
+    }
+    handleSubmit(){
+        console.log("======", this.state);
+        var {name, email, password, role } = this.state;
+        var user = { name, email, password, role};
+        if(user.name !== undefined){
+		    this.props.register(user);
+        }
     }
     render() { 
-        const {inputChange} = this.props;
+        const {} = this.props;
         return ( 
             <React.Fragment>
-                <a className="btn btn-success" data-toggle="modal" href="#modal-id"><i className="fas fa-plus"/>Tạo tài khoản</a>
+                <a className="btn btn-primary" data-toggle="modal" href="#modal-id"><i className="fas fa-plus"/>Tạo tài khoản</a>
                 <div className="modal fade" id="modal-id">
                     <div className="modal-dialog modal-department">
                         <div className="modal-content">
@@ -21,29 +41,27 @@ class CreateUser extends Component {
                                     <div className="row">
                                         <div className="form-group col-sm-12">
                                             <label>Tên</label>
-                                            <input type="text" className="form-control" name="name" onChange={ inputChange }/><br/>
+                                            <input type="text" className="form-control" name="name" onChange={this.handleChange}/><br/>
                                         </div>
                                         <div className="form-group col-sm-12">
                                             <label>Email</label>
-                                            <input type="email" className="form-control" name="email" onChange={ inputChange }/><br/>
+                                            <input type="email" className="form-control" name="email" onChange={this.handleChange}/><br/>
                                         </div>
                                         <div className="form-group col-sm-12">
                                             <label>Password</label>
-                                            <input type="password" className="form-control" name="password" onChange={ inputChange }/><br/>
+                                            <input type="password" className="form-control" name="password" onChange={this.handleChange}/><br/>
                                         </div>
                                         <div className="form-group col-sm-12">
                                             <label>Vai trò</label>
                                             <select 
                                                 className="form-control" 
                                                 style={{width: '100%'}} 
-                                                name="role" 
-                                                onChange={inputChange}>  
+                                                name="role" defaultValue="0"
+                                                onChange={this.handleChange}>  
                              
                                                         <option value='0'>Admin</option>
                                                         <option value='1'>Lecturter</option>
                                                         <option value='2'>Student</option>    
-                                                    
-                                                
                                             </select>
                                         </div>
                                         
@@ -52,7 +70,7 @@ class CreateUser extends Component {
                             </div>
                             <div className="modal-footer">
                             <button type="button" className="btn btn-danger pull-left" data-dismiss="modal"><i className="fa fa-close"></i> x</button>
-                            <button type="button" className="btn btn-primary"  data-dismiss="modal"><i className="fa fa-save"></i> Lưu</button>
+                            <button type="button" className="btn btn-primary"  onClick={this.handleSubmit} data-dismiss="modal"><i className="fa fa-save"></i> Lưu</button>
                             </div>
                         </div>
                     </div>
@@ -62,4 +80,12 @@ class CreateUser extends Component {
     }
 }
  
-export default CreateUser;
+function mapState(state) {
+    return state;
+}
+
+const actionCreators = {
+    register: AuthActions.register,
+};
+const CreateUsers = connect(mapState, actionCreators)(CreateUser);
+export { CreateUsers as CreateUser };

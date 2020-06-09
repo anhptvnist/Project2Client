@@ -106,9 +106,9 @@ class SideBar extends Component {
                             } */}
                             {
                                 this.checkURL("/target") &&
-                                <li className="nav-item has-treeview menu-open">
-                                    <a href="#abc" className="nav-link active">
-                                            <i className="nav-icon fas fa-tachometer-alt" /> <p>
+                                <li className="nav-item has-treeview">
+                                    <a href="#abc" className="nav-link">
+                                            <i className="nav-icon fas fa-people-arrows" /> <p>
                                         Quản lý người dùng
                                         <i className="right fas fa-angle-left"></i>
                                     </p>

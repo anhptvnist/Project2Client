@@ -5,7 +5,10 @@ import { sendRequest } from '../../../common-components/requestHelper';
 // import jwt from 'jsonwebtoken';
 export const AuthService = {
     login,
-    logout
+    logout,
+    register,
+    getUser,
+    searchUser,
 };
 
 async function login(user) {
@@ -19,5 +22,24 @@ async function logout() {
     return sendRequest({
         url: `${ LOCAL_SERVER_API }/auth/logout`,
         method: 'GET',
-    }, false, true, 'auth');
+    }, false, true);
+}
+async function register(user){
+    return sendRequest({
+        url: `${ LOCAL_SERVER_API }/auth/register`,
+        method: 'POST',
+        data: user
+    }, false, true)
+}
+async function getUser(){
+    return sendRequest({
+        url: `${ LOCAL_SERVER_API }/admin/user`,
+        method: 'GET',
+    }, false, true);
+}
+async function searchUser(role){
+    return sendRequest({
+        url: `${ LOCAL_SERVER_API }/admin/searchuser/${role}`,
+        method: 'GET',
+    }, false, true);
 }

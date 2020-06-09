@@ -35,7 +35,6 @@ class Login extends Component {
         e.preventDefault();
         var { email, password } = this.state;
         var user = { email, password };
-        console.log("=====", user);
 		this.props.login(user);
     }
 
