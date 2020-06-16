@@ -9,6 +9,7 @@ export const AuthService = {
     register,
     getUser,
     searchUser,
+    getUserByID
 };
 
 async function login(user) {
@@ -18,17 +19,18 @@ async function login(user) {
         data: user
     }, false, true)
 }
-async function logout() {
+async function logout(user) {
     return sendRequest({
         url: `${ LOCAL_SERVER_API }/auth/logout`,
-        method: 'GET',
+        method: 'POST',
+        data: user,
     }, false, true);
 }
 async function register(user){
     return sendRequest({
         url: `${ LOCAL_SERVER_API }/auth/register`,
         method: 'POST',
-        data: user
+        data: user,
     }, false, true)
 }
 async function getUser(){
@@ -40,6 +42,12 @@ async function getUser(){
 async function searchUser(role){
     return sendRequest({
         url: `${ LOCAL_SERVER_API }/admin/searchuser/${role}`,
+        method: 'GET',
+    }, false, true);
+}
+async function getUserByID(id){
+    return sendRequest({
+        url: `${ LOCAL_SERVER_API }/auth/getuserbyid/${id}`,
         method: 'GET',
     }, false, true);
 }

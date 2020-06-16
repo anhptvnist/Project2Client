@@ -96,22 +96,6 @@ class Login extends Component {
                     </div>
                     
                 </div>
-                    {/* <div className="login-box-body">
-                        <form onSubmit={this.handleSubmit}> 
-                            <div className="form-group has-feedback">
-                                <input name="email" onChange={this.handleChange} type="email" className="form-control" placeholder={ "Email" } required/>
-                                <span className="glyphicon glyphicon-envelope form-control-feedback" />
-                            </div>
-                            <div className="form-group has-feedback">
-                            <input name="password" onChange={this.handleChange} type="password" className="form-control" placeholder={ "Password"} required/>
-                                <span className="glyphicon glyphicon-lock form-control-feedback" />
-                            </div>
-                            <div className="col-xs-4">
-                                    <button className="btn btn-primary btn-block btn-flat">Đăng nhập</button>
-                                </div>
-                        </form>
-                        
-                    </div> */}
                 </div>
             // </div>
          );

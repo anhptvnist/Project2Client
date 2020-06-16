@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Item from './item';
 // import { getLinkOfRole } from '../../../redux-actions/User/User.action';
 import { connect } from 'react-redux';
+import { AuthActions } from '../modules/auth/redux/actions';
+
 
 
 const menu = [
@@ -41,11 +43,18 @@ const menu = [
 ];
 
 class SideBar extends Component {
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            currentRole: localStorage.getItem("role"),
+            myname: localStorage.getItem("name"),
+        }
+    }
     componentDidMount() {
         // if (localStorage.getItem('currentRole')) {
         //     this.props.getLinkOfRole();
         // }
+        // this.props.getUserByID(localStorage.getItem("userId"));
     }
 
     checkURL = (url) => {
@@ -54,26 +63,26 @@ class SideBar extends Component {
     }
 
     render() {
-        const { user, translate } = this.props;
+        const { auth } = this.props;
         return (
             <React.Fragment>
-                <aside className="main-sidebar sidebar-dark-primary elevation-4">
+                <aside className="main-sidebar sidebar-dark-primary elevation-4" style={{position: 'fixed'}}>
                     <section className="sidebar">
                         {/* Sidebar user panel */}
                         <div className="user-panel mt-3 pb-3 mb-3 d-flex">
                             <div className="image">
-                                <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"/>
+                                <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image" />
                             </div>
                             <div className="info">
-                                <a href="#" className="d-block">Alexander Pierce</a>
+                                <a href="#" className="d-block">{this.state.myname}</a>
                                 <a href="#abc"><i className="fa fa-circle text-success" /> Online</a>
                             </div>
-                            
+
                         </div>
                         {/* search form */}
                         <form action="#" method="get" className="sidebar-form">
                             <div className="input-group">
-                                <input type="text" name="q" className="form-control"  />
+                                <input type="text" name="q" className="form-control" />
                                 <span className="input-group-btn">
                                     <button type="submit" name="search" id="search-btn" className="btn btn-primary"><i className="fa fa-search" />
                                     </button>
@@ -81,14 +90,14 @@ class SideBar extends Component {
                             </div>
                         </form>
                         <nav className="mt-2">
-                            <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">    
-                            <li className="text-white text-center">MENU</li>
-                            <li>
-                                {/* <a href="/">
+                            <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                <li className="text-white text-center">MENU</li>
+                                <li>
+                                    {/* <a href="/">
                                     <i className="" /> <span>Home</span> 
                                 </a> */}
-                            </li>
-                            {/* {
+                                </li>
+                                {/* {
                                 typeof (user.links) !== 'undefined' ?
                                     (
                                         user.links.map(link => (
@@ -104,57 +113,146 @@ class SideBar extends Component {
                                         ))
                                     ) : null
                             } */}
-                            {
-                                this.checkURL("/target") &&
-                                <li className="nav-item has-treeview">
-                                    <a href="#abc" className="nav-link">
-                                            <i className="nav-icon fas fa-people-arrows" /> <p>
-                                        Quản lý người dùng
+                                {
+                                    this.state.currentRole == "0" &&
+                                    <div>
+                                        <li className="nav-item has-treeview">
+                                            <a href="#abc" className="nav-link">
+                                                <i className="nav-icon fa fa-users" /> <p>
+                                                    Quản lý người dùng
                                         <i className="right fas fa-angle-left"></i>
-                                    </p>
-                                                        
-                                    </a>
-                                    <ul className="nav nav-treeview">
-                                        <li className="nav-item"><a href="/usermanager" className="nav-link">Quản lý người dùng</a></li>
-                                        <li className="nav-item"><a href="/task-management" className="nav-link">Dashboard</a></li>
-                                    </ul>
-                                </li>
-                            }
-                                {/* Test */}
-                                <li class="nav-item has-treeview">
-                                    <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-copy"></i>
-                                    <p>
-                                        Quản lý học tập
+                                                </p>
+
+                                            </a>
+                                            <ul className="nav nav-treeview">
+                                                <li className="nav-item"><a href="/usermanager" className="nav-link">Quản lý người dùng</a></li>
+                                                {/* <li className="nav-item"><a href="/task-management" className="nav-link">Dashboard</a></li> */}
+                                            </ul>
+                                        </li>
+
+                                        <li class="nav-item has-treeview">
+                                            <a href="#" class="nav-link">
+                                                <i class="nav-icon fas fa-copy"></i> <p>
+                                                    Quản lý học tập
                                         <i class="fas fa-angle-left right"></i>
-                                       
-                                    </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                    
-                                    <li class="nav-item">
-                                        <a href="pages/layout/fixed-footer.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Quản lý bộ môn</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Quản lý học phần</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Quản lý lớp học</p>
-                                        </a>
-                                    </li>
-                                    </ul>
-                                </li>
+                                                </p>
+                                            </a>
+                                            <ul class="nav nav-treeview">
+
+                                                <li class="nav-item">
+                                                    <a href="/subjectsmanager" class="nav-link">
+                                                        <i class="far fa-circle nav-icon"></i>
+                                                        <p>Quản lý bộ môn</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="/subjectmanager" class="nav-link">
+                                                        <i class="far fa-circle nav-icon"></i>
+                                                        <p>Quản lý học phần</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="/classmanager" class="nav-link">
+                                                        <i class="far fa-circle nav-icon"></i>
+                                                        <p>Danh sách lớp học</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="/ternmanager" class="nav-link">
+                                                        <i class="far fa-circle nav-icon"></i>
+                                                        <p>Danh sách kỳ học</p>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li className="nav-item has-treeview">
+                                            <a href="#abc" className="nav-link">
+                                                <i className="nav-icon fa fa-calendar" /> <p>
+                                                    Quản lý đăng ký
+                                        <i className="right fas fa-angle-left"></i>
+                                                </p>
+
+                                            </a>
+                                            <ul className="nav nav-treeview">
+                                                <li className="nav-item"><a href="/sessionmanager" className="nav-link">Quản lý phiên đăng ký</a></li>
+                                                <li className="nav-item"><a href="/assignment" className="nav-link">Phân công giảng dạy</a></li>
+                                                {/* <li className="nav-item"><a href="/task-management" className="nav-link">Dashboard</a></li> */}
+                                            </ul>
+                                        </li>
+                                    </div>
+                                }
+                                {/* Test */}
+
+                                {
+                                    (this.state.currentRole == '1') &&
+                                    <div>
+                                        <li className="nav-item has-treeview">
+                                            <a href="#abc" className="nav-link">
+                                                <i className="nav-icon fa fa-user" /> <p>
+                                                    Hồ Sơ
+                                        <i className="right fas fa-angle-left"></i>
+                                                </p>
+
+                                            </a>
+                                            <ul className="nav nav-treeview">
+                                                <li className="nav-item"><a href="/profile" className="nav-link">Hồ sơ cá nhân</a></li>
+                                                {/* <li className="nav-item"><a href="/task-management" className="nav-link">Dashboard</a></li> */}
+                                            </ul>
+                                        </li>
+                                        <li className="nav-item has-treeview">
+                                            <a href="#abc" className="nav-link">
+                                                <i className="nav-icon fas fa-copy" /> <p>
+                                                    Quản lý học tập
+                                <i className="right fas fa-angle-left"></i>
+                                                </p>
+
+                                            </a>
+                                            <ul className="nav nav-treeview">
+                                                <li className="nav-item"><a href="/lecturermanager" className="nav-link">Danh sách lớp học</a></li>
+                                                <li className="nav-item"><a href="/assignment" className="nav-link">Nhập điểm</a></li>
+                                                {/* <li className="nav-item"><a href="/task-management" className="nav-link">Dashboard</a></li> */}
+                                            </ul>
+                                        </li>
+                                    </div>
+                                }
+
+{
+                                    (this.state.currentRole == '2') &&
+                                    <div>
+                                        <li className="nav-item has-treeview">
+                                            <a href="#abc" className="nav-link">
+                                                <i className="nav-icon fa fa-user" /> <p>
+                                                    Hồ Sơ
+                                        <i className="right fas fa-angle-left"></i>
+                                                </p>
+
+                                            </a>
+                                            <ul className="nav nav-treeview">
+                                                <li className="nav-item"><a href="/profile" className="nav-link">Hồ sơ cá nhân</a></li>
+                                                {/* <li className="nav-item"><a href="/task-management" className="nav-link">Dashboard</a></li> */}
+                                            </ul>
+                                        </li>
+                                        <li className="nav-item has-treeview">
+                                            <a href="#abc" className="nav-link">
+                                                <i className="nav-icon fas fa-copy" /> <p>
+                                                    Quản lý học tập
+                                <i className="right fas fa-angle-left"></i>
+                                                </p>
+
+                                            </a>
+                                            <ul className="nav nav-treeview">
+                                                <li className="nav-item"><a href="/registerclass" className="nav-link">Đăng ký lớp</a></li>
+                                                <li className="nav-item"><a href="/assignment" className="nav-link">Kết quả học tập</a></li>
+                                                <li className="nav-item"><a href="/assignment" className="nav-link">Danh sách lớp</a></li>
+                                                {/* <li className="nav-item"><a href="/task-management" className="nav-link">Dashboard</a></li> */}
+                                            </ul>
+                                        </li>
+                                    </div>
+                                }
                                 {/* End Test */}
-                            
-                        </ul>
+
+                            </ul>
                         </nav>
                     </section>
                 </aside>
@@ -163,16 +261,14 @@ class SideBar extends Component {
     }
 }
 
-const mapStates = state => {
-    return state;
+function mapState(state) {
+    var { auth } = state;
+    return { auth };
 }
 
-const dispatchStateToProps = (dispatch, props) => {
-    // return {
-    //     // getLinkOfRole: () => {
-    //     //     dispatch(getLinkOfRole());
-    //     },
-    // }
-}
 
-export default connect(mapStates, dispatchStateToProps)(SideBar);
+const actionCreators = {
+    getUserByID: AuthActions.getUserByID,
+};
+const connectedSideBar = connect(mapState, actionCreators)(SideBar);
+export { connectedSideBar as SideBar };

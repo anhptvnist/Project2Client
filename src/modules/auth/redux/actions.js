@@ -7,7 +7,8 @@ export const AuthActions = {
     logout,
     register,
     getUser,
-    searchUser
+    searchUser,
+    getUserByID
 }
 function login(user) {
 
@@ -17,8 +18,8 @@ function login(user) {
             .then(res => {
                 setStorage('jwt', res.data.content.token);
                 setStorage('userId', res.data.content.user._id);
-                if (res.data.content.user.role != null)
-                    setStorage('currentRole', res.data.content.user.role);
+                setStorage('role', res.data.content.user.role);
+                setStorage('name', res.data.content.user.name);
                 dispatch({
                     type: AuthConstants.LOGIN_SUCCESS,
                     payload: res.data.content
@@ -31,11 +32,10 @@ function login(user) {
 };
 
 
-function logout() {
-    // localStorage.clear();
+function logout(user) {
     return dispatch => {
-        dispatch({ type: AuthConstants.LOGOUT_REQUEST });
-        AuthService.logout()
+        dispatch({ type: AuthConstants.LOGOUT_REQUEST, user });
+        AuthService.logout(user)
             .then(res => {
                 // Do sẽ reset localStorage và redux, không cần gọi dispatch({type: AuthConstants.LOGOUT_SUCCESS});
                 clearStorage();
@@ -46,6 +46,8 @@ function logout() {
             .catch(err => {
                 dispatch({ type: AuthConstants.LOGOUT_FAILURE });
             })
+
+        localStorage.clear();
     }
 }
 
@@ -93,6 +95,23 @@ function searchUser(role) {
             })
             .catch(err => {
                 dispatch({ type: AuthConstants.SEARCH_USER_FAILURE });
+            })
+    }
+};
+
+
+function getUserByID(id) {
+    return dispatch => {
+        dispatch({ type: AuthConstants.GET_USER_BY_ID_REQUEST });
+        AuthService.getUserByID(id)
+            .then(res => {
+                dispatch({
+                    type: AuthConstants.GET_USER_BY_ID_SUCCESS,
+                    payload: res.data.content
+                })
+            })
+            .catch(err => {
+                dispatch({ type: AuthConstants.GET_USER_BY_ID_FAILURE });
             })
     }
 };

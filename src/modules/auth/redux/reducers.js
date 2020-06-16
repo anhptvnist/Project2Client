@@ -54,7 +54,7 @@ export function auth(state = initState, action) {
         case AuthConstants.REGISTER_SUCCESS:
             return {
                 ...state,
-                user: action.payload,
+                listuser: action.payload,
                 isLoading: false,
                 error: null
             };
@@ -106,6 +106,29 @@ export function auth(state = initState, action) {
             };
 
         case AuthConstants.SEARCH_USER_FAILURE:
+            return {
+                ...state,
+                error: action.payload,
+                isLoading: false
+                // error: action.payload.message
+            };
+        // =====================GET-USER-BY-ID===============
+        case AuthConstants.GET_USER_BY_ID_REQUEST:
+            return {
+                ...state,
+                isLoading: true,
+                error: null
+            };
+
+        case AuthConstants.GET_USER_BY_ID_SUCCESS:
+            return {
+                ...state,
+                userofme: action.payload,
+                isLoading: false,
+                error: null
+            };
+
+        case AuthConstants.GET_USER_BY_ID_FAILURE:
             return {
                 ...state,
                 error: action.payload,

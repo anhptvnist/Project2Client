@@ -1,7 +1,8 @@
 export const clearStorage = () => {
-    localStorage.removeItem("currentRole");
+    localStorage.removeItem("role");
     localStorage.removeItem('jwt');
     localStorage.removeItem('userId');
+
     return true;
 };
 export const setStorage = (name='jwt', value) => {

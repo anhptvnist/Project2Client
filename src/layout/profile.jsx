@@ -27,9 +27,9 @@ class Profile extends Component {
                     <li className="user-footer">
                         
                         <div className="row">
-                            <div style={{marginTop: '10px'}} className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <a style={{ width: '100%' }} href="#modal-profile" data-toggle="modal" className="btn btn-default btn-flat"><i className="fa fa-info-circle"></i> Hồ sơ </a>
-                            </div>
+                            {/* <div style={{marginTop: '10px'}} className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <a style={{ width: '100%' }} href="#modal-profile" data-toggle="modal" className="btn btn-default btn-flat"><i className="fa fa-info-circle"></i> Hồ sơ </a> */}
+                            {/* </div> */}
                             <div style={{marginTop: '10px'}} className="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                 <a style={{ width: '100%' }} href="#modal-security" data-toggle="modal" className="btn btn-default btn-flat"><i className="fa fa-gear"></i> Bảo mật</a>
                             </div>

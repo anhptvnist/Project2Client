@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { AuthActions } from '../redux/actions';
-import {CreateUser} from './CreateUser';
+import { AdminActions } from '../redux/actions';
+import {CreateSubjects} from './CreateSubjects';
 
 
 
-class UserManager extends Component {
+class SubjectsManager extends Component {
     constructor(props) {
         super(props);
         this.state = {};
         this.handleChange = this.handleChange.bind(this);
-        this.handleSearchData =this.handleSearchData.bind(this);
+        // this.handleSearchData =this.handleSearchData.bind(this);
     }
     handleChange(event){
         const{name, value}= event.target;
@@ -19,19 +19,19 @@ class UserManager extends Component {
         });
         
     }
-    handleSearchData(){
-        console.log("======", this.state);
-        var {role} = this.state;
-        this.props.searchUser(role);
-    }
+    // handleSearchData(){
+    //     console.log("======", this.state);
+    //     var {role} = this.state;
+    //     this.props.searchUser(role);
+    // }
     componentDidMount(){
-        this.props.getUser();
+        this.props.getSubjects();
     }
     render() {
-        var listUser, role;
-        const {auth}=this.props;
-        if(auth.listuser && auth.listuser !== undefined){
-            listUser=auth.listuser
+        var listSubjects, role;
+        const {admin}=this.props;
+        if(admin && admin.subjects !== undefined){
+            listSubjects=admin.subjects
         }
         
         return (
@@ -39,7 +39,7 @@ class UserManager extends Component {
                 <div className="box">
                     <div className="box-body qlht">
                         <div className="row">
-                            <div className="form-inline">
+                            {/* <div className="form-inline">
                                 <div className="form-group">
                                     <label>Vai trò:</label>
                                     {
@@ -56,16 +56,16 @@ class UserManager extends Component {
                                     }
 
                                 </div>
-                            </div>
-                            <div className="form-inline" style={{ margin: "10px" }}>
+                            </div> */}
+                            {/* <div className="form-inline" style={{ margin: "10px" }}>
                                 <div className="form-group">
                                     <button type="button" className="btn btn-success" onClick={() => this.handleSearchData()}>Tìm kiếm</button>
                                 </div>
-                            </div>
-                            <div  style={{ "margin-left": "600px", "margin-top": "10px" }}>
+                            </div> */}
+                            <div  style={{ "margin-left": "900px", "margin-top": "10px" }}>
                                 <div className="form-group">
                                     {/* <button type="button" className="btn btn-success" onClick={() => this.handleSearchData()}>Tìm kiếm</button> */}
-                                    <CreateUser/>
+                                    <CreateSubjects/>
                                 </div>
                             </div>
                         </div>
@@ -74,20 +74,21 @@ class UserManager extends Component {
                                             <thead>
                                                 <tr>
                                                     <th title="index">STT</th>
-                                                    <th title="Tên">Tên</th>
-                                                    <th title="Email">Email</th>
-                                                    <th title="Vai trò">Vai trò</th>
+                                                    <th title="Tên">Tên Bộ Môn</th>
+                                                    <th title= "Mã Bộ Môn">Mã Bộ Môn</th>
+                                                    <th title="Viện">Viện</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {
-                                                    (typeof listUser !== "undefined" && listUser.length !== 0) ?
-                                                        listUser.map((item, index) =>
+                                                    (typeof listSubjects !== "undefined" && listSubjects.length !== 0) ?
+                                                        listSubjects.map((item, index) =>
                                                             <tr key={index}>
                                                                 <td>{index+1}</td>
                                                                 <td>{item.name}</td>
-                                                                <td>{item.email}</td>
-                                                                <td>{item.role=='0'?"Admin" :(item.role=='1'?"Lecturter":"Student")}</td>
+                                                                <td>{item.code}</td>
+                                                                <td>{item.parent}</td>
+                                                                {/* <td>{item.role=='0'?"Admin" :(item.role=='1'?"Lecturter":"Student")}</td> */}
                                                             </tr>) : "Không có dữ liệu"
                                                 }
                                             </tbody>
@@ -102,13 +103,12 @@ class UserManager extends Component {
 }
 
 function mapState(state) {
-    var { auth } = state;
-    return {auth };
+    var { auth , admin} = state;
+    return {auth, admin };
 }
 
 const actionCreators = {
-    getUser: AuthActions.getUser,
-    searchUser: AuthActions.searchUser
+    getSubjects: AdminActions.getSubjects,
 };
-const connectedUserManager = connect(mapState, actionCreators)(UserManager);
-export { connectedUserManager as UserManager };
+const connectedSubjectsManager = connect(mapState, actionCreators)(SubjectsManager);
+export { connectedSubjectsManager as SubjectsManager };

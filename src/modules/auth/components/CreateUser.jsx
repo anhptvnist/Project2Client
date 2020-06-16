@@ -29,7 +29,7 @@ class CreateUser extends Component {
         const {} = this.props;
         return ( 
             <React.Fragment>
-                <a className="btn btn-primary" data-toggle="modal" href="#modal-id"><i className="fas fa-plus"/>Tạo tài khoản</a>
+                <a className="btn btn-primary" data-toggle="modal" href="#modal-id">Tạo tài khoản</a>
                 <div className="modal fade" id="modal-id">
                     <div className="modal-dialog modal-department">
                         <div className="modal-content">
@@ -69,7 +69,7 @@ class CreateUser extends Component {
                                 </form>
                             </div>
                             <div className="modal-footer">
-                            <button type="button" className="btn btn-danger pull-left" data-dismiss="modal"><i className="fa fa-close"></i> x</button>
+                            <button type="button" className="btn btn-danger pull-left" data-dismiss="modal"><i className="fa fa-close"></i>Đóng </button>
                             <button type="button" className="btn btn-primary"  onClick={this.handleSubmit} data-dismiss="modal"><i className="fa fa-save"></i> Lưu</button>
                             </div>
                         </div>
