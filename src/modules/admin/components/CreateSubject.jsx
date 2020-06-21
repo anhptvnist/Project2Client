@@ -74,6 +74,7 @@ class CreateSubject extends Component {
                                                 style={{width: '100%'}} 
                                                 name="parent"
                                                 onChange={this.handleChange}>
+                                                    <option value='null'>Chọn bộ môn</option>
                                                     {  (typeof listSubjects !== "undefined" && listSubjects.length !== 0) ?
                                                         listSubjects.map((item) =>
                                                         <option value={item._id}>{item.name}</option>):<option value='null'>Chưa có bộ môn nào</option>

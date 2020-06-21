@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { AdminActions } from '../redux/actions';
 import Swal from 'sweetalert2';
 
-class EditAssignment extends Component {
+class InfoClass extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -30,7 +30,7 @@ class EditAssignment extends Component {
     handleSubmitLec(event, id) {
         event.preventDefault();
         var { lecturerId } = this.state;
-        this.state.check=2;
+        this.state.check = 2;
         if (lecturerId !== null || lecturerId !== undefined) {
             this.props.getListClassofLec(lecturerId, id);
         }
@@ -41,10 +41,10 @@ class EditAssignment extends Component {
         event.preventDefault();
         var { lecturerId } = this.state;
         console.log("=====", this.state.check);
-        if (lecturerId !== null && lecturerId !== undefined && this.state.check==2) {
+        if (lecturerId !== null && lecturerId !== undefined && this.state.check == 2) {
             this.props.assignment(lecturerId, id, idclass);
         }
-        if(this.state.check == 1 || this.state.check == undefined){
+        if (this.state.check == 1 || this.state.check == undefined) {
             Swal.fire({
                 title: "Vui lòng chọn lại giảng viên",
                 type: 'warning',
@@ -57,12 +57,12 @@ class EditAssignment extends Component {
 
         const { admin } = this.props;
         var listTerns, listSubject, listTern = [], listLecturer, listclasslec, check;
-        var {check}= this.state
+        var { check } = this.state
         if (admin && admin.listlecturer !== undefined) {
             listLecturer = admin.listlecturer;
         }
         const { classtest } = this.props;
-        if (admin && admin.listclassoflec !== undefined && admin.listclassoflec !== null && admin.listclassoflec.listclass !== null) {
+        if (admin && admin.listclassoflec !== undefined) {
             listclasslec = admin.listclassoflec;
             listclasslec.listclass.map(item => {
                 if (item.day == classtest.day) {
@@ -76,13 +76,13 @@ class EditAssignment extends Component {
                     ) {
                         this.state.check = 1;
                     }
-                    if (item.startDate >= classtest.startDate
-                        && item.endDate <= classtest.endDate
+                    if (item.startDate > classtest.startDate
+                        && item.endDate < classtest.endDate
                     ) {
                         this.state.check = 1;
                     }
-                    if (item.startDate <= classtest.startDate
-                        && item.endDate >= classtest.endDate
+                    if (item.startDate < classtest.startDate
+                        && item.endDate > classtest.endDate
                     ) {
                         this.state.check = 1;
                     }
@@ -91,14 +91,14 @@ class EditAssignment extends Component {
             });
         }
         let checklist = (admin.listclassoflec !== undefined)
-        console.log("+++",admin.listclassoflec, checklist);
+        console.log("+++", classtest);
         return (
             <React.Fragment>
                 <div className="modal fade" id={`showedit`}>
-                    <div className="modal-dialog modal-department">
-                        <div className="modal-content">
+                    <div className="modal-dialog" style={{ maxWidth: "none" }}>
+                        <div className="modal-content" style={{ width: "900px", margin: "auto" }}>
                             <div className="modal-header">
-                                <h4 className="modal-title">Phân công giảng dạy</h4>
+                                <h4 className="modal-title" >Thông tin chi tiết lớp học</h4>
                             </div>
                             <div className="modal-body">
                                 <form style={{ marginBottom: '20px' }}>
@@ -137,39 +137,53 @@ class EditAssignment extends Component {
                                                 {classtest.startDate} - {classtest.endDate}</label>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div className="row">
-                                        <div className="form-group col-sm-12" style={{ textAlign: "left" }}>
-                                            <label>Giảng viên:</label> &nbsp;
-                                            <select
-                                                className="form-control"
-
-                                                // defaultValue={"3"}
-                                                name="lecturerId"
-                                                onChange={this.handleChange}>
-
-                                                <option value='null'>Chọn giảng viên</option>
-                                                {(typeof listLecturer !== "undefined" && listLecturer.length !== 0) ?
-                                                    listLecturer.map((item) =>
-                                                        <option value={item._id}>{item.userId.name}</option>) : <option value='null'>Chưa có học kỳ nào</option>
-
+                                        <br />
+                                        <div className="row">
+                                            <div className="">
+                                                <label>Giảng viên:</label> &nbsp;
+                                            {
+                                                    (classtest && classtest.lecturerId != null) ?
+                                                        <label>{classtest.lecturerId.degree} &nbsp; {classtest.lecturerId.userId.name}</label> : "Chưa phân công"
                                                 }
-                                            </select>
-                                            <a href="#" onClick={(event) => { this.handleSubmitLec(event, classtest.tern._id) }} ><button className="btn btn-primary" style={{ marginTop: "10px" }}>Xác nhận</button></a>
+
+                                            </div>
                                         </div>
                                     </div>
+
                                     <div>
-                                    {
-                                        (admin.listclassoflec !== undefined && this.state.check == 1) ?
-                                            admin.listclassoflec.listclass.map(item =>
-                                            <div style={{color: "red"}}>
-                                                Trùng lịch <br/>
-                                               Mã Lớp &nbsp;{item.code} &nbsp; Thứ {item.day} &nbsp;&nbsp;&nbsp; {item.startDate}-{item.endDate}<br/></div>
-                                            )                                     
-                                            :"Thỏa mãn"
-                                    }
+                                        <h5>Danh sách lớp</h5>
                                     </div>
+
+                                    <table id="example1" className="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th title="index">STT</th>
+                                                <th title="Học kỳ">MSSV</th>
+                                                <th title="Ngày bắt đầu">Họ và tên</th>
+                                                <th title="Ngày kết thúc">Điểm giữa kỳ</th>
+                                                <th title="Hành động">Điểm cuối kỳ</th>
+                                                <th title="Thời gian">Đánh giá</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                (classtest && classtest.students.length != 0) ?
+                                                    classtest.students.map((item, index) =>
+                                                        <tr>
+                                                            <td>{index + 1}</td>
+                                                            <td>{item.student.code}</td>
+                                                            <td>{item.student.userId.name}</td>
+                                                            <td>{item.midPoint ? item.midPoint : "Chưa đánh giá"}</td>
+                                                            <td>{item.endPoint ? item.endPoint : "Chưa đánh giá"}</td>
+                                                            <td>{item.result ? item.result : "Chưa đánh giá"}</td>
+
+                                                        </tr>
+                                                    ) : "Chưa có sinh viên đăng ký"
+
+                                            }
+                                        </tbody>
+                                    </table>
+
                                 </form>
                             </div>
                             <div className="modal-footer">
@@ -195,5 +209,5 @@ const actionCreators = {
     getListClassofLec: AdminActions.getListClassofLec,
     assignment: AdminActions.assignment,
 };
-const ConnectEditAssignment = connect(mapState, actionCreators)(EditAssignment);
-export { ConnectEditAssignment as EditAssignment };
+const ConnectInfoClass = connect(mapState, actionCreators)(InfoClass);
+export { ConnectInfoClass as InfoClass };

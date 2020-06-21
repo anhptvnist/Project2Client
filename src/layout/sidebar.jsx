@@ -126,7 +126,7 @@ class SideBar extends Component {
                                             </a>
                                             <ul className="nav nav-treeview">
                                                 <li className="nav-item"><a href="/usermanager" className="nav-link">Quản lý người dùng</a></li>
-                                                {/* <li className="nav-item"><a href="/task-management" className="nav-link">Dashboard</a></li> */}
+                                                <li className="nav-item"><a href="/studentsmanager" className="nav-link">Quản lý học sinh</a></li>
                                             </ul>
                                         </li>
 
@@ -210,7 +210,7 @@ class SideBar extends Component {
                                             </a>
                                             <ul className="nav nav-treeview">
                                                 <li className="nav-item"><a href="/lecturermanager" className="nav-link">Danh sách lớp học</a></li>
-                                                <li className="nav-item"><a href="/assignment" className="nav-link">Nhập điểm</a></li>
+                                                <li className="nav-item"><a href="/setpoint" className="nav-link">Nhập điểm</a></li>
                                                 {/* <li className="nav-item"><a href="/task-management" className="nav-link">Dashboard</a></li> */}
                                             </ul>
                                         </li>
@@ -243,8 +243,8 @@ class SideBar extends Component {
                                             </a>
                                             <ul className="nav nav-treeview">
                                                 <li className="nav-item"><a href="/registerclass" className="nav-link">Đăng ký lớp</a></li>
-                                                <li className="nav-item"><a href="/assignment" className="nav-link">Kết quả học tập</a></li>
-                                                <li className="nav-item"><a href="/assignment" className="nav-link">Danh sách lớp</a></li>
+                                                <li className="nav-item"><a href="/listpoint" className="nav-link">Kết quả học tập</a></li>
+                                                <li className="nav-item"><a href="/classoftern" className="nav-link">Danh sách lớp</a></li>
                                                 {/* <li className="nav-item"><a href="/task-management" className="nav-link">Dashboard</a></li> */}
                                             </ul>
                                         </li>

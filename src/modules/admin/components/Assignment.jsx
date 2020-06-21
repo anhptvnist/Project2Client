@@ -146,8 +146,7 @@ class Assignment extends Component {
                                                         (item.lecturerId == null)?
                                                         <a href="#abc" onClick={()=>
                                                             this.showModalEdit(item._id)} className="copy" data-toggle="modal"
-                                                            data-backdrop="static" data-keyboard="false" title="Thiết lập kpi tháng mới từ kpi tháng
-                                                            này" href="#showedit"><i className="fa fa-edit"></i></a>:"Đã phân công"
+                                                            data-backdrop="static" data-keyboard="false" title="Phân công giảng dạy" href="#showedit"><i className="fa fa-edit"></i></a>:"Đã phân công"
                                                     }
                                                
                                                      {this.state.showModalEdit === item._id ?

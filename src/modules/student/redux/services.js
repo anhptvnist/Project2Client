@@ -7,6 +7,10 @@ export const StudentService = {
    getListClassofTern,
    getlistClassofStudent,
    registerClass,
+   deleteClass,
+   getListClassTernofStudent,
+   getPointOfStudent,
+   getInfoStudent,
 };
 
 async function getListClassofTern(subject){
@@ -28,3 +32,30 @@ async function registerClass(id, idtern, idclass){
     }, false, true);
 }
 
+async function deleteClass(id, idtern, idclass){
+    return sendRequest({
+        url: `${ LOCAL_SERVER_API }/student/deleteclass/${id}/${idtern}/${idclass}`,
+        method: 'POST',
+    }, false, true);
+}
+
+async function getListClassTernofStudent(id, idtern){
+    return sendRequest({
+        url: `${ LOCAL_SERVER_API }/student/getlistclassoftern/${id}/${idtern}`,
+        method: 'GET',
+    }, false, true);
+}
+
+async function getPointOfStudent (id, idtern){
+    return sendRequest({
+        url: `${ LOCAL_SERVER_API }/student/getpoint/${id}/${idtern}`,
+        method: 'GET',
+    }, false, true);
+}
+
+async function getInfoStudent (id){
+    return sendRequest({
+        url: `${ LOCAL_SERVER_API }/student/getinfo/${id}`,
+        method: 'GET',
+    }, false, true);
+}

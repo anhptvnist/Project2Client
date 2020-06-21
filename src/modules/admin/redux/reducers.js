@@ -463,6 +463,91 @@ export function admin(state = {}, action) {
                 error: action.payload,
                 isLoading: false
             };
+        case AdminConstants.SET_POINT_OF_STUDENT_REQUEST:
+            return {
+                ...state,
+                isLoading: true,
+                error: null
+            };
+
+        case AdminConstants.SET_POINT_OF_STUDENT_SUCCESS:
+            return {
+                ...state,
+                resultclass: action.payload,
+                isLoading: false,
+                error: null
+            };
+
+        case AdminConstants.SET_POINT_OF_STUDENT_FAILURE:
+            return {
+                ...state,
+                error: action.payload,
+                isLoading: false
+            };
+        case AdminConstants.GET_STUDENTS_REQUEST:
+            return {
+                ...state,
+                isLoading: true,
+                error: null
+            };
+
+        case AdminConstants.GET_STUDENTS_SUCCESS:
+            return {
+                ...state,
+                liststudents: action.payload,
+                isLoading: false,
+                error: null
+            };
+
+        case AdminConstants.GET_STUDENTS_FAILURE:
+            return {
+                ...state,
+                error: action.payload,
+                isLoading: false
+            };
+        case AdminConstants.EDIT_STUDENT_REQUEST:
+            return {
+                ...state,
+                isLoading: true,
+                error: null
+            };
+
+        case AdminConstants.EDIT_STUDENT_SUCCESS:
+            return {
+                ...state,
+                liststudents: action.payload,
+                isLoading: false,
+                error: null
+            };
+
+        case AdminConstants.EDIT_STUDENT_FAILURE:
+            return {
+                ...state,
+                error: action.payload,
+                isLoading: false
+            };
+        case AdminConstants.UPDATE_STUDENT_REQUEST:
+            return {
+                ...state,
+                isLoading: true,
+                error: null
+            };
+
+        case AdminConstants.UPDATE_STUDENT_SUCCESS:
+            return {
+                ...state,
+                liststudents: action.payload,
+                isLoading: false,
+                error: null
+            };
+
+        case AdminConstants.UPDATE_STUDENT_FAILURE:
+            return {
+                ...state,
+                error: action.payload,
+                isLoading: false
+            };
+     
         default:
             return { ...state };
     }

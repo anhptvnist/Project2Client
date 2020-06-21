@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { AdminActions } from '../redux/actions';
 import { CreateClass } from './CreateClass';
-
+import { InfoClass } from './InfoClass'
 
 
 class ClassManager extends Component {
@@ -59,6 +59,19 @@ class ClassManager extends Component {
     //         this.props.startClass(id);
     //     }
     // }
+    showModalEdit = async (id) => {
+        await this.setState(state => {
+            return {
+                ...state,
+                showModalEdit: id
+            }
+        })
+        var element = document.getElementsByTagName("BODY")[0];
+        element.classList.add("modal-open");
+        var modal = document.getElementById(`showedit`);
+        modal.classList.add("in");
+        modal.style = "display: block; padding-right: 17px;";
+    }
     render() {
         var listClass, role;
         const { admin } = this.props;
@@ -138,9 +151,15 @@ class ClassManager extends Component {
                                                     }
                                                 </td>
                                                 <td>
+                                                    
                                                     <div style={{ margin: "auto" }}>
-                                                        <a href="#" className="add_circle" title="Xóa kỳ học" onClick={(event) => this.handleDeleteSession(event, item._id)}><i className="nav-icon fa fa-trash" style={{ color: "red" }}></i></a>
+                                                        <a href="#" className="add_circle" title="Xóa lớp học" onClick={(event) => this.handleDeleteSession(event, item._id)}><i className="nav-icon fa fa-trash" style={{ color: "red" }}></i></a>
+                                                        <a href="#abc" onClick={()=>
+                                                            this.showModalEdit(item._id)} className="copy" data-toggle="modal"
+                                                            data-backdrop="static" data-keyboard="false" title="Xem chi tiết" href="#showedit"><i className="fa fa-info-circle" style= {{color: "#007bff"}}></i></a>
                                                     </div>
+                                                    {this.state.showModalEdit === item._id ?
+                                                    <InfoClass classtest={item} />: null }
                                                 </td>
                                                 {/* <td>{item.role=='0'?"Admin" :(item.role=='1'?"Lecturter":"Student")}</td> */}
                                             </tr>) : "Không có dữ liệu"

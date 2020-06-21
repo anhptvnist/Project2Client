@@ -23,7 +23,11 @@ export const AdminActions = {
     deleteClass,
     assignment,
     getLecturer,
-    getListClassofLec
+    getListClassofLec,
+    setPointOfStudent,
+    getStudents,
+    editStudent,
+    updateStudent
 };
 
 function getSubjects() {
@@ -362,6 +366,72 @@ function getListClassofLec(id, idtern) {
             })
             .catch(err => {
                 dispatch({ type: AdminConstants.GET_LIST_CLASS_OF_LEC_FAILURE});
+            })
+    }
+};
+
+
+function setPointOfStudent(listclass) {
+    return dispatch => {
+        dispatch({ type: AdminConstants.SET_POINT_OF_STUDENT_REQUEST });
+        AdminService.setPointOfStudent(listclass)
+            .then(res => {
+                dispatch({
+                    type: AdminConstants.SET_POINT_OF_STUDENT_SUCCESS,
+                    payload: res.data.content
+                })
+            })
+            .catch(err => {
+                dispatch({ type: AdminConstants.SET_POINT_OF_STUDENT_FAILURE});
+            })
+    }
+};
+
+
+function getStudents(code) {
+    return dispatch => {
+        dispatch({ type: AdminConstants.GET_STUDENTS_REQUEST });
+        AdminService.getStudents(code)
+            .then(res => {
+                dispatch({
+                    type: AdminConstants.GET_STUDENTS_SUCCESS,
+                    payload: res.data.content
+                })
+            })
+            .catch(err => {
+                dispatch({ type: AdminConstants.GET_STUDENTS_FAILURE });
+            })
+    }
+};
+
+function editStudent(student) {
+    return dispatch => {
+        dispatch({ type: AdminConstants.EDIT_STUDENT_REQUEST });
+        AdminService.editStudent(student)
+            .then(res => {
+                dispatch({
+                    type: AdminConstants.EDIT_STUDENT_SUCCESS,
+                    payload: res.data.content
+                })
+            })
+            .catch(err => {
+                dispatch({ type: AdminConstants.EDIT_STUDENT_FAILURE });
+            })
+    }
+};
+
+function updateStudent() {
+    return dispatch => {
+        dispatch({ type: AdminConstants.UPDATE_STUDENT_REQUEST });
+        AdminService.updateStudent()
+            .then(res => {
+                dispatch({
+                    type: AdminConstants.UPDATE_STUDENT_SUCCESS,
+                    payload: res.data.content
+                })
+            })
+            .catch(err => {
+                dispatch({ type: AdminConstants.UPDATE_STUDENT_FAILURE });
             })
     }
 };

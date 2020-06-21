@@ -6,6 +6,10 @@ export const StudentActions = {
    getListClassofTern,
    getlistClassofStudent,
    registerClass,
+   deleteClass,
+   getListClassTernofStudent,
+   getPointOfStudent,
+   getInfoOfStudent
 };
 
 
@@ -55,6 +59,70 @@ function registerClass(id, idtern, idclass) {
             })
             .catch(err => {
                 dispatch({ type: StudentConstants.REGISTER_CLASS_FAILURE});
+            })
+    }
+};
+
+function deleteClass(id, idtern, idclass) {
+    return dispatch => {
+        dispatch({ type: StudentConstants.DELETE_CLASS_REQUEST});
+        StudentService.deleteClass(id, idtern, idclass)
+            .then(res => {
+                dispatch({
+                    type: StudentConstants.DELETE_CLASS_SUCCESS,
+                    payload: res.data.content
+                })
+            })
+            .catch(err => {
+                dispatch({ type: StudentConstants.DELETE_CLASS_FAILURE});
+            })
+    }
+};
+
+function getListClassTernofStudent(id, idtern) {
+    return dispatch => {
+        dispatch({ type: StudentConstants.GET_LIST_CLASS_TERN_OF_STUDENT_REQUEST });
+        StudentService.getListClassTernofStudent(id, idtern)
+            .then(res => {
+                dispatch({
+                    type: StudentConstants.GET_LIST_CLASS_TERN_OF_STUDENT_SUCCESS,
+                    payload: res.data.content
+                })
+            })
+            .catch(err => {
+                dispatch({ type: StudentConstants.GET_LIST_CLASS_TERN_OF_STUDENT_FAILURE});
+            })
+    }
+};
+
+function getPointOfStudent(id, idtern) {
+    return dispatch => {
+        dispatch({ type: StudentConstants.GET_POINT_OF_STUDENT_REQUEST });
+        StudentService.getPointOfStudent(id, idtern)
+            .then(res => {
+                dispatch({
+                    type: StudentConstants.GET_POINT_OF_STUDENT_SUCCESS,
+                    payload: res.data.content
+                })
+            })
+            .catch(err => {
+                dispatch({ type: StudentConstants.GET_POINT_OF_STUDENT_FAILURE});
+            })
+    }
+};
+
+function getInfoOfStudent(id) {
+    return dispatch => {
+        dispatch({ type: StudentConstants.GET_INFO_OF_STUDENT_REQUEST });
+        StudentService.getInfoStudent(id)
+            .then(res => {
+                dispatch({
+                    type: StudentConstants.GET_INFO_OF_STUDENT_SUCCESS,
+                    payload: res.data.content
+                })
+            })
+            .catch(err => {
+                dispatch({ type: StudentConstants.GET_INFO_OF_STUDENT_FAILURE});
             })
     }
 };

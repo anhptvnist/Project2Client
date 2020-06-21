@@ -61,6 +61,7 @@ class CreateSession extends Component {
                                                      defaultValue= {listTern[0].code}
                                                      name="tern"
                                                      onChange={this.handleChange}>
+                                                         <option value='null'>Chọn kỳ học</option>
                                                           {  (typeof listTern !== "undefined" && listTern.length !== 0) ?
                                                         listTern.map((item) =>
                                                         <option value={item._id}>{item.code}</option>):<option value='null'>Chưa có học kỳ nào</option>

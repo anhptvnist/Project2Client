@@ -24,7 +24,11 @@ export const AdminService = {
     deleteClass,
     assignment,
     getLecturer,
-    getListClassofLec
+    getListClassofLec,
+    setPointOfStudent,
+    getStudents,
+    editStudent,
+    updateStudent
 };
 
 async function getSubjects(){
@@ -167,6 +171,36 @@ async function getLecturer(){
 async function getListClassofLec(id, idtern){
     return sendRequest({
         url: `${ LOCAL_SERVER_API }/admin/listclassoflec/${id}/${idtern}`,
+        method: 'GET',
+    }, false, true);
+}
+
+async function setPointOfStudent(listpoint){
+    return sendRequest({
+        url: `${ LOCAL_SERVER_API }/admin/setpoint`,
+        method: 'POST',
+        data: listpoint,
+    }, false, true);
+}
+
+async function getStudents(code){
+    return sendRequest({
+        url: `${ LOCAL_SERVER_API }/admin/getstudents/${code}`,
+        method: 'GET',
+    }, false, true)
+}
+
+async function editStudent(student){
+    return sendRequest({
+        url: `${ LOCAL_SERVER_API }/admin/editstudent`,
+        method: 'POST',
+        data: student,
+    }, false, true);
+}
+
+async function updateStudent(){
+    return sendRequest({
+        url: `${ LOCAL_SERVER_API }/admin/updatestudent`,
         method: 'GET',
     }, false, true);
 }

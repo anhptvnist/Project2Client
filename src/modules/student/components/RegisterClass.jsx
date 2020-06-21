@@ -42,8 +42,9 @@ class RegisterClass extends Component {
 
     componentDidMount() {
         this.props.getListClassofTern();
-        this.props.getlistClassofStudent(localStorage.getItem("userId"))
-        this.props.getTern();
+        this.props.getlistClassofStudent(localStorage.getItem("userId"));
+        this.props.getInfoOfStudent(localStorage.getItem("userId"))
+        // this.props.getTern();
     }
     handleSearchData(event){
         event.preventDefault();
@@ -57,10 +58,20 @@ class RegisterClass extends Component {
         console.log("=====", subject)
         // this.props.searchUser(role);
     }
-    handleSubmitData(event, listClasses, listRegister) {
+    handleSubmitData(event, listClasses, listRegister, info) {
         event.preventDefault();
         // console.log("listClasssssssss", listClasses);
-        var tmp, check = 0, checktime = 0, checksubject = 0, test;
+        var tmp, check = 0, checktime = 0, checksubject = 0, test, checkwarning=0, sum=0;
+        if(info.warning == 1){
+            checkwarning = 18;
+        }else if(info.warning == 2){
+            checkwarning = 12;
+        }else if(info.warning == 3){
+            checkwarning = 8
+        }else if(info.warning == 0){
+            checkwarning = 24
+        }
+        
         var { idclass } = this.state;
         for (let i in listClasses) {
             if (listClasses[i].code == idclass) {
@@ -71,10 +82,15 @@ class RegisterClass extends Component {
                 check = 4
             }
         }
+        for (let i in listRegister){
+            sum = listRegister[i].subjectId.credits + sum; 
+        }
+        sum = sum + tmp.subjectId.credits;
         // check =4 không có lớp
         // check =2 trùng lịch học, 
         //checksubject = 4 trùng môn học
         if (check == 1) {
+            checksubject = 1;
             for (let i in listRegister) {
                 if (listRegister[i].subjectId.code == tmp.subjectId.code) {
                     checksubject = 4;
@@ -105,6 +121,7 @@ class RegisterClass extends Component {
         }
 
         if (check == 1 && checksubject == 1) {
+            checktime = 1 ;
             for (let i in listRegister) {
                 if (listRegister[i].day == tmp.day) {
                     if (listRegister[i].startDate < tmp.endDate
@@ -121,15 +138,15 @@ class RegisterClass extends Component {
                         test = listRegister[i];
                         break;
                     }
-                    if (listRegister[i].startDate > tmp.startDate
-                        && listRegister[i].endDate < tmp.endDate
+                    if (listRegister[i].startDate >= tmp.startDate
+                        && listRegister[i].endDate <= tmp.endDate
                     ) {
                         checktime = 4;
                         test = listRegister[i];
                         break;
                     }
-                    if (listRegister[i].startDate < tmp.startDate
-                        && listRegister[i].endDate > tmp.endDate
+                    if (listRegister[i].startDate <= tmp.startDate
+                        && listRegister[i].endDate >= tmp.endDate
                     ) {
                         checktime = 4;
                         test = listRegister[i];
@@ -149,17 +166,32 @@ class RegisterClass extends Component {
                 confirmButtonText: 'Xác nhận'
             })
         }
-
+        console.log("======", tmp );
+        console.log("check", check, "====", checksubject, "++++", checktime)
         if (idclass !== null && check == 1 && checksubject == 1 && checktime == 1) {
-            this.props.registerClass(localStorage.getItem("userId"), tmp.tern._id, idclass);
-            //  this.props.getListClassofTern();
+            if(sum > checkwarning){
+                Swal.fire({
+                    title: `Số tín chỉ được đăng ký tối đa ${checkwarning}`,
+                    type: 'warning',
+                    icon: 'warning',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Xác nhận'
+                })
+            }else{
+                this.props.registerClass(localStorage.getItem("userId"), tmp.tern._id, idclass);
+                 //  this.props.getListClassofTern();
+            }
+            
         }
 
     }
-
+    handleDeleteClass(event, idtern, idclass){
+        event.preventDefault();
+        this.props.deleteClass(localStorage.getItem("userId"), idtern, idclass);
+    }
 
     render() {
-        var listClass, index = 0, listClasses = [], listTern, listregister, listRegister = [];
+        var listClass, index = 0, listClasses = [], listTern, listregister, listRegister = [], info;
         const { student, admin } = this.props;
         if (student && student.listclassoftern !== undefined) {
             listClass = student.listclassoftern;
@@ -170,6 +202,9 @@ class RegisterClass extends Component {
         for (let i in listClass) {
             listClasses.push(listClass[i]);
             // this.state.Nowtern = listClasses[0].tern._id;
+        }
+        if (student && student.info !== undefined) {
+            info = student.info
         }
 
         for (let i in listregister) {
@@ -233,6 +268,7 @@ class RegisterClass extends Component {
                                         <th title="Mã môn học">Mã môn học</th>
                                         <th title="Môn học">Môn học</th>
                                         <th title="Số lượng">Số lượng</th>
+                                     
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -274,7 +310,7 @@ class RegisterClass extends Component {
                                 </div>
                                 <div className="form-inline" style={{ margin: "10px" }}>
                                     <div className="form-group">
-                                        <button type="button" className="btn btn-success" onClick={(event) => this.handleSubmitData(event, listClasses, listRegister)}>Đăng ký</button>
+                                        <button type="button" className="btn btn-success" onClick={(event) => this.handleSubmitData(event, listClasses, listRegister, info)}>Đăng ký</button>
                                     </div>
                                 </div>
                             </div>
@@ -290,12 +326,13 @@ class RegisterClass extends Component {
                                         <th title="Mã môn học">Mã môn học</th>
                                         <th title="Môn học">Môn học</th>
                                         <th title="Số lượng">Số lượng</th>
+                                        <th title="Hành động">Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
                                     {
-                                        (typeof student && student.listclassofstudent !== undefined) ?
+                                        (typeof student && student.listclassofstudent !== undefined && student.listclassofstudent.length != 0) ?
                                             student.listclassofstudent[0].listclass.map((item, index) =>
                                                 <tr>
                                                     <td>{index + 1}</td>
@@ -307,6 +344,13 @@ class RegisterClass extends Component {
                                                     <td>{item.subjectId.code}</td>
                                                     <td>{item.subjectId.name}</td>
                                                     <td>{item.slot}/{item.slotmax}</td>
+                                                    <td>{ 
+                                                            (item.status == 0)?
+                                                            <div style={{margin: "auto"}}>
+                                                                <a href="#" className="add_circle" title="Xóa lớp học" onClick={(event) => this.handleDeleteClass(event, item.tern._id, item._id)}><i className="nav-icon fa fa-trash" style={{color: "red"}}></i></a>
+                                                            </div>:"Không thể xóa"
+                                                        }
+                                                       </td>
                                                 </tr>
 
 
@@ -342,6 +386,8 @@ const actionCreators = {
     getTern: AdminActions.getTern,
     getlistClassofStudent: StudentActions.getlistClassofStudent,
     registerClass: StudentActions.registerClass,
+    deleteClass: StudentActions.deleteClass,
+    getInfoOfStudent: StudentActions.getInfoOfStudent
 };
 const connectedRegisterClass = connect(mapState, actionCreators)(RegisterClass);
 export { connectedRegisterClass as RegisterClass };
